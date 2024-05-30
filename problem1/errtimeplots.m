@@ -18,10 +18,10 @@
 
 % Set up
 fp = '/Users/davidmiles-skov/Desktop/Academics/Optimisation/02612 - Constrained Optimisation/Exam Assignment/problem1/data/V1';
-n = 3:100;
+n = 3:10:1000;
 num_trials = 10;
-save_fig = true;
-save_data = true;
+save_fig = false;
+save_data = false;
 
 % Define the colors
 colors = [
@@ -97,50 +97,6 @@ for i = 1:length(n)
     end
 end
 
-% Using timeit instead
-
-% for i = 1:length(n)
-%     for j = 1:num_trials
-%         disp(['n = ', num2str(n(i)), ', trial = ', num2str(j)])
-        
-%         % Generate random ECQP
-%         [H, g, A, b, x, lambda] = randECQP(n(i), sparsity);
-
-%         fprintf('Is H positive definite? %d\n', all(eig(H) > 0));
-        
-%         % Define anonymous functions for each solver
-%         f_LDLdense = @() EqualityQPSolver(H, g, A, b, 'LDLdense');
-%         f_LUdense = @() EqualityQPSolver(H, g, A, b, 'LUdense');
-%         f_nullspace = @() EqualityQPSolver(H, g, A, b, 'nullspace');
-%         f_rangespace = @() EqualityQPSolver(H, g, A, b, 'rangespace');
-%         f_LDLsparse = @() EqualityQPSolver(H, g, A, b, 'LDLsparse');
-%         f_LUsparse = @() EqualityQPSolver(H, g, A, b, 'LUsparse');
-        
-%         % Measure execution time and calculate errors for each solver
-%         time_LDLdense(i, j) = timeit(f_LDLdense);
-%         [x_sol, ~] = f_LDLdense();
-%         error_LDLdense(i, j) = norm(x - x_sol);
-        
-%         time_LUdense(i, j) = timeit(f_LUdense);
-%         [x_sol, ~] = f_LUdense();
-%         error_LUdense(i, j) = norm(x - x_sol);
-        
-%         time_nullspace(i, j) = timeit(f_nullspace);
-%         [x_sol, ~] = f_nullspace();
-%         error_nullspace(i, j) = norm(x - x_sol);
-        
-%         time_rangespace(i, j) = timeit(f_rangespace);
-%         [x_sol, ~] = f_rangespace();
-%         error_rangespace(i, j) = norm(x - x_sol);
-        
-%         time_LDLsparse(i, j) = timeit(f_LDLsparse);
-%         [x_sol, ~] = f_LDLsparse();
-%         error_LDLsparse(i, j) = norm(x - x_sol);
-        
-%         time_LUsparse(i, j) = timeit(f_LUsparse);
-%         [x_sol, ~] = f_LUsparse();
-%         error_LUsparse(i, j) = norm(x - x_sol);
-%     end
 % end
 
 % Calculate mean error and time
@@ -251,19 +207,7 @@ function save_figure(figure_handle, filename, resolution, width, height)
     set(figure_handle, 'PaperUnits', 'inches');
     set(figure_handle, 'PaperPosition', [0 0 width height]);
     set(figure_handle, 'PaperSize', [width height]);
-
-    % Set the renderer to ensure high quality
     set(figure_handle, 'Renderer', 'painters');
-
-    % Save the figure as a .png file
     print(figure_handle, filename, '-dpng', ['-r', num2str(resolution)]);
-
-    % Save the figure as a .pdf file
-    print(figure_handle, filename, '-dpdf', ['-r', num2str(resolution)]);
-
-    % Optionally, save the figure as an .eps file (vector format)
-    print(figure_handle, filename, '-depsc', ['-r', num2str(resolution)]);
-
-    % Display message
-    fprintf('Figure saved as %s.png, %s.pdf, and %s.eps at %d dpi\n', filename, filename, filename, resolution);
+    fprintf('Figure saved as %s.png at %d dpi\n', filename, filename, filename, resolution);
 end
