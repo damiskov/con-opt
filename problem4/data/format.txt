@@ -1,6 +1,0 @@
-For SQP results:
-
-SQP_{Problem abbreviation}_{Specify if BFGS or defined Hessian}_{Method (e.g., ls=line-search)}.csv
-
-Example: SQP_HB_BFGS_local.csv
-
